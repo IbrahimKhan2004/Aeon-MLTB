@@ -428,6 +428,22 @@ async def update_user_settings(query, stype="main"):
 
 
 @new_task
+async def set_thumb(_, message):
+    user_id = message.from_user.id
+    handler_dict[user_id] = False
+    reply_to = message.reply_to_message
+    if reply_to and (reply_to.photo or reply_to.document):
+        des_dir = await create_thumb(reply_to, user_id)
+        update_user_ldata(user_id, "THUMBNAIL", des_dir)
+        await database.update_user_doc(user_id, "THUMBNAIL", des_dir)
+        await send_message(message, "Custom thumbnail saved successfully.")
+    else:
+        await send_message(
+            message, "Reply to a photo to save it as custom thumbnail."
+        )
+
+
+@new_task
 async def send_user_settings(_, message):
     from_user = message.from_user
     handler_dict[from_user.id] = False

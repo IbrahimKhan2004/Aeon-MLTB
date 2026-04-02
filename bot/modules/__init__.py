@@ -6,6 +6,7 @@ from .clone import clone_node
 from .exec import aioexecute, clear, execute
 from .file_selector import confirm_selection, select
 from .force_start import remove_from_queue
+from .gd_clean import driveclean, drivecleancb
 from .gd_count import count_node
 from .gd_delete import delete_file
 from .gd_search import gdrive_search, select_type
@@ -37,6 +38,7 @@ from .users_settings import (
     edit_user_settings,
     get_users_settings,
     send_user_settings,
+    set_thumb,
 )
 from .ytdlp import ytdl, ytdl_leech
 
@@ -59,6 +61,8 @@ __all__ = [
     "confirm_selection",
     "count_node",
     "delete_file",
+    "driveclean",
+    "drivecleancb",
     "edit_bot_settings",
     "edit_user_settings",
     "execute",
@@ -87,6 +91,7 @@ __all__ = [
     "select_type",
     "send_bot_settings",
     "send_user_settings",
+    "set_thumb",
     "spectrum_handler",
     "speedtest",
     "start",

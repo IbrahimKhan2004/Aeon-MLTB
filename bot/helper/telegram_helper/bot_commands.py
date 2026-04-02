@@ -9,6 +9,7 @@ class BotCommands:
     MirrorCommand = [f"mirror{i}", f"m{i}"]
     JdMirrorCommand = [f"jdmirror{i}", f"jm{i}"]
     NzbMirrorCommand = [f"nzbmirror{i}", f"nm{i}"]
+    SetThumbCommand = [f"t{i}", f"thumb{i}"]
     YtdlCommand = [f"ytdl{i}", f"y{i}"]
     LeechCommand = [f"leech{i}", f"l{i}"]
     JdLeechCommand = [f"jdleech{i}", f"jl{i}"]
@@ -18,6 +19,7 @@ class BotCommands:
     MediaInfoCommand = f"mediainfo{i}"
     CountCommand = f"count{i}"
     DeleteCommand = f"del{i}"
+    GDCleanCommand = [f"gdclean{i}", f"gc{i}"]
     CancelAllCommand = f"cancelall{i}"
     ForceStartCommand = [f"forcestart{i}", f"fs{i}"]
     ListCommand = f"list{i}"
