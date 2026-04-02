@@ -438,9 +438,7 @@ async def set_thumb(_, message):
         await database.update_user_doc(user_id, "THUMBNAIL", des_dir)
         await send_message(message, "Custom thumbnail saved successfully.")
     else:
-        await send_message(
-            message, "Reply to a photo to save it as custom thumbnail."
-        )
+        await send_message(message, "Reply to a photo to save it as custom thumbnail.")
 
 
 @new_task
