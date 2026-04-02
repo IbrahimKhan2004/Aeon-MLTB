@@ -9,6 +9,7 @@ from pyrogram.handlers import (
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.modules import *
+from bot.modules.gd_clean import driveclean, drivecleancb
 
 from .telegram_manager import TgClient
 
@@ -79,6 +80,11 @@ def add_handlers():
             count_node,
             BotCommands.CountCommand,
             CustomFilters.authorized,
+        ),
+        "driveclean": (
+            driveclean,
+            BotCommands.GDCleanCommand,
+            CustomFilters.owner,
         ),
         "delete_file": (
             delete_file,
@@ -168,6 +174,11 @@ def add_handlers():
         "send_user_settings": (
             send_user_settings,
             BotCommands.UserSetCommand,
+            CustomFilters.authorized,
+        ),
+        "set_thumb": (
+            set_thumb,
+            BotCommands.SetThumbCommand,
             CustomFilters.authorized,
         ),
         "ytdl": (
@@ -263,5 +274,11 @@ def add_handlers():
         MessageHandler(
             cancel,
             filters=regex(r"^/stop(_\w+)?(?!all)") & CustomFilters.authorized,
+        ),
+    )
+    TgClient.bot.add_handler(
+        CallbackQueryHandler(
+            drivecleancb,
+            filters=regex(r"^gdclean") & CustomFilters.owner,
         ),
     )
