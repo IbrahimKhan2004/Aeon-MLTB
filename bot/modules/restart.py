@@ -96,6 +96,8 @@ async def confirm_restart(_, query):
         reply_to = message.reply_to_message
         intervals["stopAll"] = True
         restart_message = await send_message(reply_to, "Restarting...")
+        if isinstance(restart_message, str):
+            restart_message = message
         await delete_message(message)
         await TgClient.stop()
         if scheduler.running:
