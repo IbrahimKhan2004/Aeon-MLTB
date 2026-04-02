@@ -23,11 +23,7 @@ async def driveclean(_, message):
         link = reply_to.text.split(maxsplit=1)[0].strip()
     else:
         gdrive_id = Config.GDRIVE_ID
-        link = (
-            f"https://drive.google.com/drive/folders/{gdrive_id}"
-            if gdrive_id
-            else ""
-        )
+        link = f"https://drive.google.com/drive/folders/{gdrive_id}" if gdrive_id else ""
 
     if not link:
         return await send_message(
@@ -52,7 +48,7 @@ async def driveclean(_, message):
     if res[1] is None:
         return await edit_message(clean_msg, res[0])
 
-    name, _mime_type, size, files, folders = res
+    name, mime_type, size, files, folders = res
 
     try:
         drive_id = gd.get_id_from_url(link, user_id)
@@ -67,7 +63,7 @@ async def driveclean(_, message):
     buttons.data_button("Permanent Clean", f"gdclean confirm {drive_id} permanent")
     buttons.data_button("Stop GDrive Clean", "gdclean stop", "footer")
 
-    text = "⌬ <b><i>GDrive Clean/Trash :</i></b>\n\n"
+    text = f"⌬ <b><i>GDrive Clean/Trash :</i></b>\n\n"
     text += f"┎ <b>Name:</b> {name}\n"
     text += f"┃ <b>Size:</b> {get_readable_file_size(size)}\n"
     text += f"┖ <b>Files:</b> {files} | <b>Folders:</b> {folders}\n\n"
@@ -79,7 +75,6 @@ async def driveclean(_, message):
     text += "<code>Choose the Required Action below to Clean your Drive!</code>"
 
     await edit_message(clean_msg, text, buttons.build_menu(2))
-    return None
 
 
 @new_task
@@ -89,7 +84,7 @@ async def drivecleancb(_, query):
     data = query.data.split()
     if user_id != Config.OWNER_ID:
         await query.answer(text="Not Owner!", show_alert=True)
-        return None
+        return
 
     if data[1] == "confirm":
         await query.answer()
@@ -113,15 +108,13 @@ async def drivecleancb(_, query):
         res = await sync_to_async(gd.count, drive_id, user_id)
         if res[1] is None:
             return await edit_message(message, res[0])
-        name, _mime_type, size, files, folders = res
+        name, mime_type, size, files, folders = res
         buttons = ButtonMaker()
         buttons.data_button("Move to Bin", f"gdclean confirm {drive_id} trash")
-        buttons.data_button(
-            "Permanent Clean", f"gdclean confirm {drive_id} permanent"
-        )
+        buttons.data_button("Permanent Clean", f"gdclean confirm {drive_id} permanent")
         buttons.data_button("Stop GDrive Clean", "gdclean stop", "footer")
 
-        text = "⌬ <b><i>GDrive Clean/Trash :</i></b>\n\n"
+        text = f"⌬ <b><i>GDrive Clean/Trash :</i></b>\n\n"
         text += f"┎ <b>Name:</b> {name}\n"
         text += f"┃ <b>Size:</b> {get_readable_file_size(size)}\n"
         text += f"┖ <b>Files:</b> {files} | <b>Folders:</b> {folders}\n\n"
@@ -159,4 +152,3 @@ async def drivecleancb(_, query):
         else:
             await edit_message(message, "⌬ <b>DriveClean Stopped!</b>")
             await auto_delete_message(message)
-    return None

@@ -1,12 +1,9 @@
 from logging import getLogger
-
 from googleapiclient.errors import HttpError
 from tenacity import RetryError
-
 from bot.helper.mirror_leech_utils.gdrive_utils.helper import GoogleDriveHelper
 
 LOGGER = getLogger(__name__)
-
 
 class GoogleDriveClean(GoogleDriveHelper):
     def __init__(self):
@@ -60,15 +57,9 @@ class GoogleDriveClean(GoogleDriveHelper):
                     self._proceed_clean(file_id, trash)
                 else:
                     if trash:
-                        self.service.files().update(
-                            fileId=file_id,
-                            body={"trashed": True},
-                            supportsAllDrives=True,
-                        ).execute()
+                        self.service.files().update(fileId=file_id, body={'trashed': True}, supportsAllDrives=True).execute()
                     else:
-                        self.service.files().delete(
-                            fileId=file_id, supportsAllDrives=True
-                        ).execute()
+                        self.service.files().delete(fileId=file_id, supportsAllDrives=True).execute()
                     deleted += 1
             except HttpError as err:
                 LOGGER.error(f"Error deleting {filee['name']}: {err}")
